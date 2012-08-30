@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - geometry - cube</title>
+		<meta charset="utf-8">
+		<style>
+			body {
+				margin: 0px;
+				background-color: #000000;
+				overflow: hidden;
+				color: #fff;
+			}
+			a,p {
+				display: inline;
+				margin-right: 10px;
+			}
+
+		</style>
+	</head>
+	<body>
+<a href="#" onclick="x=y=0;z=600">Calibrate</a><a href="#" onclick="fps(30)">30fps</a><a href="#" onclick="fps(60)">60fps</a><a href="#" onclick="zoom = zoom + 1">Slower</a><a href="#" onclick="zoom = zoom - 1">Faster</a><a href="#" id="refresh">Refresh</a><p id="time"></p><script>document.getElementById("time").innerHTML = new Date().getTime();document.getElementById("refresh").href = window.location + "?" + new Date().getTime()</script>
+		<script src="three.js"></script>
+
+		<script>
+
+			var camera, scene, renderer;
+			var mesh;
+
+			init();
+			animate();
+
+			function init() {
+
+				scene = new THREE.Scene();
+
+				//
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.z = 600;
+				scene.add( camera );
+
+				//
+
+				geometry = new THREE.CubeGeometry( 200, 200, 200 );
+				material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'crate.gif' ) });
+
+				mesh = new THREE.Mesh( geometry, material);
+				scene.add( mesh );
+
+				//
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+<script>
+var x = 0,y = 0,z = 600,a,b,g,zoom = 5,interval
+window.ondevicemotion = function(event) {
+  rotation = event.rotationRate
+   a = Math.round(rotation.alpha);
+   b = Math.round(rotation.beta);
+   g = Math.round(rotation.gamma);
+}
+function update(){
+	if (zoom < 1){
+		zoom = 1;
+	}
+	x = x + b/zoom;
+	y = y + a/zoom;
+	z = z + g/zoom;
+				
+			camera.position.x = -x
+			camera.position.y = y
+			camera.position.z = z
+}
+function fps(f){
+clearInterval(interval);
+setInterval('update();', 1000/f);
+}
+fps(120);
+</script>
+	</body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>three.js webgl - geometry - cube</title>
+<meta charset="utf-8">
+<style>
+body {
+margin: 0px;
+background-color: #000000;
+overflow: hidden;
+}
+</style>
+</head>
+<body>
+<script src="three.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+function init(){scene=new THREE.Scene;camera=new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,1,1e4);camera.position.z=400;scene.add(camera);geometry=new THREE.CubeGeometry(200,200,200);material=new THREE.MeshBasicMaterial({map:THREE.ImageUtils.loadTexture("crate.gif")});mesh=new THREE.Mesh(geometry,material);scene.add(mesh);renderer=new THREE.WebGLRenderer;renderer.setSize(window.innerWidth,window.innerHeight);document.body.appendChild(renderer.domElement)}function animate(){requestAnimationFrame(animate);renderer.render(scene,camera)}var camera,scene,renderer;var mesh;init();animate();
+function l(a){console.log(a)}function updateCam(){camera.position.x=y;camera.position.y=-x;camera.position.z=z}var last,x=0,y=0,z=400,zoom=5,datas=0,socket=io.connect("http://server.local:8081");socket.on("connect",function(){socket.emit("connected",{device:"display"});l("Connected!")});socket.on("who",function(){l("Who request acknowledged");socket.emit("identify",{device:"data"});l("Responded to who request")});socket.on("identify",function(a){l(a.device+" is connected.")});socket.on("connected",function(a){l("A "+a.device+" connected.")});socket.on("disconnect",function(a){l("Disconnected.")});socket.on("calibrate",function(){x=y=0;z=400;l("c")});socket.on("data",function(a){datas++;x=x+a.x/zoom;y=y+a.y/zoom;z=z+a.z/zoom});setInterval("updateCam()",1e3/60)
+</script>
+</body>
+</html>

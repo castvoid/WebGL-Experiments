@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<title>Websockets</title>
+<style>
+*{
+	margin:0;
+	padding: 0;
+	border: none;
+	list-style: none;
+}
+body{
+	font-family: Helvetica, Arial, sans-serif;
+}
+.options{
+	width:722px;
+	height:320px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-left:-360px;
+	margin-top: -160px;
+	text-align: center;
+	overflow: hidden;
+}
+a{
+	text-decoration: none;
+	color: #000;
+}
+h1{
+	font-size: 50px;
+}
+.options .option{
+	width:240px;
+	overflow: hidden;
+	display: inline-block;
+			float: left;
+}
+
+.display,.accelerometer{
+	border-right: 1px solid #777777;
+
+
+}
+.options .option.standalone{
+	float: right;
+
+}
+</style>
+</head>
+<body>
+<div class="options">
+<h1>Choose your role</h1><br>
+	<a href="display.html">
+		<div class="display option">
+			<h2>Display</h2>
+			<p>Display the result of the websocket</p>
+		</div>
+	</a>
+	<a href="device.html">
+		<div class="accelerometer option">
+			<h2>Device</h2>
+			<p>Send the data from the accelerometer to the display</p>
+		</div>
+	</a>
+		<a href="standalone.html">
+		<div class="standalone option">
+			<h2>Standalone</h2>
+			<p>Display the data from the accelerometer</p>
+		</div>
+	</a>
+</div>
+</body>
+</html>

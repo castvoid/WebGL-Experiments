@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+<title>Websocket Device</title>
+<meta name="viewport" content="width=device-width" />
+</head>
+<body>
+<div  class=".send" onclick="calibrate()" >Calibrate</div><br>
+<a href="#" onclick="window.location = window.location + '?' + new Date().getTime()">Refresh</a>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+function round2(a,b){var c=Math.round(a*Math.pow(10,b))/Math.pow(10,b);return c}function l(a){console.log(a)}function send(){socket.emit("data",{x:coords.a,y:coords.b,z:coords.g})}function calibrate(){socket.emit("calibrate")}var coords={},socket=io.connect("http://server.local:8081");socket.on("connect",function(){socket.emit("connected",{device:"data"});alert("Connected!")});socket.on("who",function(){l("Who request acknowledged");socket.emit("identify",{device:"data"});l("Responded to who request")});socket.on("identify",function(a){l(a.device+" is connected.")});socket.on("connected",function(a){l("A "+a.device+" connected.")});socket.on("disconnect",function(a){alert("Disconnected.")});window.ondevicemotion=function(a){coords.x=a.accelerationIncludingGravity.x;coords.y=a.accelerationIncludingGravity.y;coords.z=a.accelerationIncludingGravity.z;rotation=a.rotationRate;if(rotation!=null&&true){coords.a=Math.round(rotation.alpha);coords.b=Math.round(rotation.beta);coords.g=Math.round(rotation.gamma)}};setInterval("send()",5)
+</script>
+</body>
+</html>
